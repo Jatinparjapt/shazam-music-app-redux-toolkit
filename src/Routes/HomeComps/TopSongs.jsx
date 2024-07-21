@@ -51,7 +51,7 @@ const TopSongs = () => {
 
   useEffect(() => {
     dispatch(allSongsFetch());
-  }, [dispatch]);
+  }, []);
 
   if (!songs) {
     return (
