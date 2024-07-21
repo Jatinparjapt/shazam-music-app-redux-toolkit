@@ -36,7 +36,7 @@ export const getSongById = createAsyncThunk("getSong", async (id) => {
             ids: id
         },
         headers: {
-            'x-rapidapi-key': '89408d746emsh8b8da6d3c6323e3p1f4addjsn7ec08c5a56c7',
+            'x-rapidapi-key': 'cd99563170msh36ece9666379143p1a79fejsn3a37bb269b68',
             'x-rapidapi-host': 'spotify23.p.rapidapi.com'
         }
     };
