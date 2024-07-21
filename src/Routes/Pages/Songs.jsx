@@ -161,11 +161,11 @@ const filteredSongs = songs.filter((song) =>
                   <div>
                   <h3 className='hover:decoration-2 overflow-hidden font-semibold w-[10rem] h-[5vh] md:h-[4vh] hover:underline'>{item.name}</h3>
                   <h3 className='hover:decoration-2 hover:underline w-[10rem] h-[5vh] md:h-[4vh]overflow-hidden '>{item.artists[0].name}</h3>
-                    <button onClick={()=>(addToPlaylist(item.album.images[2].url ,item.name ,item.artists[0].name , item.preview_url ))} className='bg-black lg:hidden rounded-2xl p-1 text-white'>Add To Playlist</button>
+                    <button onClick={()=>(addToPlaylist(item.album.images[2].url ,item.name ,item.artists[0].name , item.preview_url ))} className='bg-black lg:hidden rounded-md p-1 text-white'>Add To Playlist</button>
                   </div>
                 </div>
                 <div className='flex items-center cursor-pointer'>
-                  <button onClick={()=>(addToPlaylist(item.album.images[2].url ,item.name ,item.artists[0].name , item.preview_url ))} className='bg-black hidden lg:block rounded-2xl p-1 mx-2 text-white'>Add To Playlist</button>
+                  <button onClick={()=>(addToPlaylist(item.album.images[2].url ,item.name ,item.artists[0].name , item.preview_url ))} className='bg-black hidden lg:block rounded-md p-1 mx-2 text-white'>Add To Playlist</button>
                   <div onClick={() => showMenu(index)} className="buttons text-2xl font-extrabold ">
                   <BsThreeDotsVertical/>
                   </div>

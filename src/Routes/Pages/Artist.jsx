@@ -209,13 +209,13 @@ const addToPlaylist = (image, name , artist, audio)=>{
                           <h3 className="hover:decoration-2 hover:underline w-[10rem] h-[5vh] md:h-[4vh]overflow-hidden ">
                             {item.track.artists.items[0].profile.name}
                           </h3>
-                          <button onClick={()=>(addToPlaylist(item.track.album.coverArt.sources[2].url ,item.name ,item.artists[0].name , item.track.uri ))} className="bg-black lg:hidden rounded-2xl p-1 text-white">
+                          <button onClick={()=>(addToPlaylist(item.track.album.coverArt.sources[2].url ,item.name ,item.artists[0].name , item.track.uri ))} className="bg-black lg:hidden rounded-md p-1 text-white">
                             Add To Playlist
                           </button>
                         </div>
                       </div>
                       <div className="flex items-center cursor-pointer">
-                        <button onClick={()=>(addToPlaylist(item.track.album.coverArt.sources[2].url ,item.name ,item.artists[0].name , item.track.uri ))} className="bg-black hidden lg:block rounded-2xl p-1 mx-2 text-white">
+                        <button onClick={()=>(addToPlaylist(item.track.album.coverArt.sources[2].url ,item.name ,item.artists[0].name , item.track.uri ))} className="bg-black hidden lg:block rounded-md p-1 mx-2 text-white">
                          Add To Playlist
                         </button>
                         <div
