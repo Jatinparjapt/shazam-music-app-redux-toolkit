@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {getArtists , getArtistById} from "../../Redux-toolkit/Artists"
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -6,21 +6,33 @@ import { Link } from 'react-router-dom';
 import Loading from '../../Components/Loading';
 
 const TopArtist = () => {
-  const dispatch = useDispatch();
-  const artists = useSelector((state) => state.artists.artists);
-  
-  useEffect(() => {
-    dispatch(getArtists())
-  }, [dispatch]);
-  const  getArtist = (id)=>{
-    dispatch(getArtistById(id))
-  }
-  if(!artists){
-    return (
-      <><Loading/></>
-    )
-  }
-  let artistsName = artists.artists
+// Get the dispatch function to trigger Redux actions
+const dispatch = useDispatch();
+
+// Select the artists data from the Redux store
+const artists = useSelector((state) => state.artists.artists);
+
+// Fetch artists when the component mounts
+useEffect(() => {
+  dispatch(getArtists());
+}, [dispatch]);
+
+// Function to dispatch an action to get artist details by ID
+const getArtist = (id) => {
+  dispatch(getArtistById(id));
+};
+
+// Show loading component if artists data is not yet available
+if (!artists) {
+  return (
+    <>
+      <Loading />
+    </>
+  );
+}
+
+// Extract artists' names from the artists data
+let artistsName = artists.artists;
   return (
     <>
       

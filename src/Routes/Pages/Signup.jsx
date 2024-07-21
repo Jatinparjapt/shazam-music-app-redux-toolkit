@@ -13,6 +13,7 @@ import { signupUser } from '../../Redux-toolkit/Login';
 const Signup = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  // handle data form data using useForm hook   
   const { register, handleSubmit, formState: { errors } } = useForm();
   useEffect(() => {
     const getToken = Cookies.get("token")

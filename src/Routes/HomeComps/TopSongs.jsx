@@ -9,73 +9,98 @@ import { IoMdShareAlt } from "react-icons/io";
 import { RiAccountPinCircleFill } from "react-icons/ri";
 import {setSongToPlayList} from "../../Redux-toolkit/Playlist"
 import { toast } from 'react-toastify'
-import { MdOutlinePlaylistAdd } from "react-icons/md";
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'js-cookie';
 import { BsThreeDotsVertical } from "react-icons/bs";
 import Loading from '../../Components/Loading';
 const TopSongs = () => {
-  const navigate = useNavigate()
-  const [menu, setMenu] = useState(false);
-  const dispatch = useDispatch();
-  const songs = useSelector((state) => state.allSongs.songs);
-  const [id, setId] = useState(0);
-  const [currentAudio, setCurrentAudio] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const audioRefs = useRef([]);
-  const getUser = Cookies.get("token")
+  // Get the navigate function to programmatically navigate
+const navigate = useNavigate();
 
-  const showMenu = (data) => {
-    setMenu((value) => !value);
-    setId(data);
-  };
+// State to manage the visibility of the menu
+const [menu, setMenu] = useState(false);
 
-  const togglePlay = (index) => {
-    const audioRef = audioRefs.current[index];
+// Get the dispatch function to trigger Redux actions
+const dispatch = useDispatch();
 
-    if (currentAudio && currentAudio !== audioRef) {
-      currentAudio.pause();
-      setIsPlaying(false);
-    }
-    
-    if (audioRef) {
-      if (isPlaying && currentAudio === audioRef) {
-        audioRef.pause();
-      } else {
-        audioRef.play();
-      }
-      setIsPlaying(!isPlaying || currentAudio !== audioRef);
-      setCurrentAudio(audioRef);
-    }
-  };
+// Select the songs data from the Redux store
+const songs = useSelector((state) => state.allSongs.songs);
 
-  useEffect(() => {
-    dispatch(allSongsFetch());
-  }, []);
+// State to manage the ID of the currently selected song
+const [id, setId] = useState(0);
 
-  if (!songs) {
-    return (
-      <>
-      <Loading/>
-      </>
-    );
+// State to manage the currently playing audio element
+const [currentAudio, setCurrentAudio] = useState(null);
+
+// State to manage the play/pause status of the audio
+const [isPlaying, setIsPlaying] = useState(false);
+
+// Ref to store audio elements
+const audioRefs = useRef([]);
+
+// Get the authentication token from cookies
+const getUser = Cookies.get("token");
+
+// Function to toggle the menu visibility and set the current song ID
+const showMenu = (data) => {
+  setMenu((value) => !value);
+  setId(data);
+};
+
+// Function to toggle play/pause of the audio
+const togglePlay = (index) => {
+  const audioRef = audioRefs.current[index];
+
+  if (currentAudio && currentAudio !== audioRef) {
+    currentAudio.pause();
+    setIsPlaying(false);
   }
-  const changeMenu = ()=>{
-    if(menu){
-setMenu(false)
+  
+  if (audioRef) {
+    if (isPlaying && currentAudio === audioRef) {
+      audioRef.pause();
+    } else {
+      audioRef.play();
     }
+    setIsPlaying(!isPlaying || currentAudio !== audioRef);
+    setCurrentAudio(audioRef);
   }
-// add song to playlist 
-const addToPlaylist = (image, name , artist, audio)=>{
+};
+
+// Fetch all songs when the component mounts
+useEffect(() => {
+  dispatch(allSongsFetch());
+}, []);
+
+// Show loading component if songs data is not yet available
+if (!songs) {
+  return (
+    <>
+      <Loading />
+    </>
+  );
+}
+
+// Function to close the menu if it is open
+const changeMenu = () => {
+  if (menu) {
+    setMenu(false);
+  }
+};
+
+// Function to add a song to the playlist
+const addToPlaylist = (image, name, artist, audio) => {
   const data = { 
-   name ,
+    name,
     image,
     artist,
     audio
-  }
-  if(getUser){
-    dispatch(setSongToPlayList(data))
-    toast.success('Added To PlayList ', {
+  };
+  
+  // Check if the user is authenticated
+  if (getUser) {
+    dispatch(setSongToPlayList(data)); // Dispatch action to add song to playlist
+    toast.success('Added To PlayList', { // Show success toast
       position: "top-right",
       autoClose: 1000,
       hideProgressBar: false,
@@ -84,23 +109,22 @@ const addToPlaylist = (image, name , artist, audio)=>{
       draggable: true,
       progress: undefined,
       theme: "light",
-      });
-  }else{
-
-    toast.error('User Not Found ', {
+    });
+  } else {
+    toast.error('User Not Found', { // Show error toast and navigate to login
       position: "top-right",
-    autoClose: 1000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
-    
-  });
-  navigate("/login")
-}
-}
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+    navigate("/login");
+  }
+};
+
 
 
   return (

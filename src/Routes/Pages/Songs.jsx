@@ -18,92 +18,128 @@ import { setSongToPlayList } from '../../Redux-toolkit/Playlist';
 import { selectSearchTerm } from '../../Redux-toolkit/Search';
 // import { Link } from 'react-router-dom';
 const Songs = () => {
-  const getUser = Cookies.get("token")
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const searchQuery = useSelector(selectSearchTerm);
-  const [menu, setMenu] = useState(false);
-  const [bannerData , setBannerData] = useState({
-    name:"",
-    image: "",
-    artistName:""
-  })
-  const songs = useSelector((state) => state.allSongs.songs);
-  const [id, setId] = useState(0);
-  const [currentAudio, setCurrentAudio] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const audioRefs = useRef([]);
-  useEffect(() => {
-    if (songs && songs.length > 0) {
-      setBannerData({
-        name: songs[0].name,
-        artistName: songs[0].artists[0].name,
-        image: songs[0].album.images[1].url
-      });
-    }
-  }, [songs]);
-  
-  useEffect(() => {
-    dispatch(allSongsFetch());
-  }, [dispatch]);
-  const getSingleSongDetails = (id)=>{
-   dispatch(getSongById(id))
+// Get the user token from cookies
+const getUser = Cookies.get("token");
+
+// Hook for dispatching actions to Redux store
+const dispatch = useDispatch();
+
+// Hook for navigation
+const navigate = useNavigate();
+
+// Selector for retrieving the current search query from the Redux store
+const searchQuery = useSelector(selectSearchTerm);
+
+// State for managing the visibility of the menu
+const [menu, setMenu] = useState(false);
+
+// State for storing data related to the banner
+const [bannerData, setBannerData] = useState({
+  name: "",
+  image: "",
+  artistName: ""
+});
+
+// Selector for retrieving the list of songs from the Redux store
+const songs = useSelector((state) => state.allSongs.songs);
+
+// State for storing the currently selected song ID
+const [id, setId] = useState(0);
+
+// State for storing the currently playing audio element
+const [currentAudio, setCurrentAudio] = useState(null);
+
+// State for tracking whether an audio is playing
+const [isPlaying, setIsPlaying] = useState(false);
+
+// Ref for storing references to audio elements
+const audioRefs = useRef([]);
+
+// Effect for updating banner data when the list of songs changes
+useEffect(() => {
+  if (songs && songs.length > 0) {
+    setBannerData({
+      name: songs[0].name,
+      artistName: songs[0].artists[0].name,
+      image: songs[0].album.images[1].url
+    });
   }
-  // mange menu
-    const showMenu = (data) => {
-      setMenu((value) => !value);
-      setId(data);
-    };
-    // handle audio
-    const togglePlay = (index) => {
-      const audioRef = audioRefs.current[index];
-  
-      if (currentAudio && currentAudio !== audioRef) {
-        currentAudio.pause();
-        setIsPlaying(false);
-      }
-      
-      if (audioRef) {
-        if (isPlaying && currentAudio === audioRef) {
-          audioRef.pause();
-        } else {
-          audioRef.play();
-        }
-        setIsPlaying(!isPlaying || currentAudio !== audioRef);
-        setCurrentAudio(audioRef);
-      }
-    };
-    // setSongDetails to Show 
-    const setDataForBanner = (name , artist, image)=>{
-        setBannerData({
-          name:name,
-          artistName : artist,
-          image:image
-        })
-    }
-    console.log(bannerData, "getdata")
-    const changeMenu = ()=>{
-      if(menu){
-setMenu(false)
-      }
-    }
-    if(!songs){
-      return (
-        <><Loading/></>
-      )
-    }
+}, [songs]);
 
+// Effect for fetching all songs when the component mounts
+useEffect(() => {
+  dispatch(allSongsFetch());
+}, [dispatch]);
 
-    // add song to playlist 
-const addToPlaylist = (image, name , artist, audio)=>{
-  const data = { 
-    name ,
-     image,
-     artist,
-     audio
-   }
-  if(getUser){
-    dispatch(setSongToPlayList(data))
+// Function to fetch details of a single song by its ID
+const getSingleSongDetails = (id) => {
+  dispatch(getSongById(id));
+};
+
+// Function to toggle the menu visibility and set the current song ID
+const showMenu = (data) => {
+  setMenu((value) => !value);
+  setId(data);
+};
+
+// Function to play or pause audio based on its index
+const togglePlay = (index) => {
+  const audioRef = audioRefs.current[index];
+
+  if (currentAudio && currentAudio !== audioRef) {
+    currentAudio.pause();
+    setIsPlaying(false);
+  }
+
+  if (audioRef) {
+    if (isPlaying && currentAudio === audioRef) {
+      audioRef.pause();
+    } else {
+      audioRef.play();
+    }
+    setIsPlaying(!isPlaying || currentAudio !== audioRef);
+    setCurrentAudio(audioRef);
+  }
+};
+
+// Function to set banner data
+const setDataForBanner = (name, artist, image) => {
+  setBannerData({
+    name: name,
+    artistName: artist,
+    image: image
+  });
+};
+
+// Logging banner data for debugging purposes
+console.log(bannerData, "getdata");
+
+// Function to hide the menu if it's currently visible
+const changeMenu = () => {
+  if (menu) {
+    setMenu(false);
+  }
+};
+
+// Display a loading component if songs are not available
+if (!songs) {
+  return (
+    <>
+      <Loading />
+    </>
+  );
+}
+
+// Function to add a song to the playlist
+const addToPlaylist = (image, name, artist, audio) => {
+  const data = {
+    name,
+    image,
+    artist,
+    audio
+  };
+  if (getUser) {
+    dispatch(setSongToPlayList(data));
     toast.success('Added To PlayList ', {
       position: "top-right",
       autoClose: 1000,
@@ -113,8 +149,8 @@ const addToPlaylist = (image, name , artist, audio)=>{
       draggable: true,
       progress: undefined,
       theme: "light",
-      });
-  } else{
+    });
+  } else {
     toast.error('User Not Found ', {
       position: "top-right",
       autoClose: 1000,
@@ -124,17 +160,17 @@ const addToPlaylist = (image, name , artist, audio)=>{
       draggable: true,
       progress: undefined,
       theme: "light",
-      
-      });
-      navigate("/login")
+    });
+    navigate("/login");
   }
-  
-}
-// filtersongs 
-const filteredSongs = songs.filter((song) => 
+};
+
+// Filter songs based on the search query
+const filteredSongs = songs.filter((song) =>
   song.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
   song.artists[0].name.toLowerCase().includes(searchQuery.toLowerCase())
 );
+
   return (
     <>
       <Helmet>

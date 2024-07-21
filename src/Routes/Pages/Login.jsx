@@ -13,6 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const Login = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
+  // handle data form data using useForm hook   
     const { register, handleSubmit, formState: { errors } } = useForm();
     useEffect(() => {
       const getToken = Cookies.get("token")
@@ -34,7 +35,7 @@ const Login = () => {
 
   const onSubmit = async (data)=>{
     try {
-
+// user login 
     const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
     const user = userCredential.user;
     if(user){
