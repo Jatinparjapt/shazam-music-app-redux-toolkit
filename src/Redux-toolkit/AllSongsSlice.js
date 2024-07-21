@@ -3,7 +3,7 @@ import axios from "axios"
 export const allSongsFetch = createAsyncThunk("allsongs", async ()=>{
     const options = {
         method: 'GET',
-        url: 'https://spotify23.p.rapidapi.cm/recommendations',
+        url: 'https://spotify23.p.rapidapi.com/recommendations',
         params: {
           limit: '20',
           seed_tracks: '0c6xIDDpzE81m2q797ordA',

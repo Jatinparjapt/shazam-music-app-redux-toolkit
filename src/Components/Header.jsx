@@ -84,11 +84,14 @@ const Header = () => {
                     <ImSearch onClick={inputTagVisiblite} className={`${isScrolled?"text-blue-600":"text-white"}`} />
                     </div>
                     <div className={`flex `} >
-                    {user ? <button onClick={logoutUser} className=' flex text-blue-600 bg-white rounded-md p-1 ' >
-                           LOGOUT  <FiLogOut className='mt-1 ml-2' />
-                        </button> : <Link to={"/login"} className=' flex text-blue-600 bg-white rounded-md p-1 ' >
-                            CONNECT <GrApple className='mt-1 ml-2' /> MUSIC
-                        </Link>   }
+                      {user? <button 
+                      className={` hidden lg:flex   ${isScrolled? "bg-blue-600 text-white":"bg-white text-blue-600"}   rounded-md p-1 `} >
+                            CONNECT <GrApple className='mt-[1px] ml-2' /> MUSIC
+                        </button> : <Link to={"/login"} className={` hidden lg:flex   ${isScrolled? "bg-blue-600 text-white":"bg-white text-blue-600"}   rounded-md p-1 `} >
+                            CONNECT <GrApple className='mt-[1px] ml-2' /> MUSIC
+                        </Link>  }
+                        
+                       
                         <div  onClick={changeIcons} className='flex lg:hidden' >
                         <GiHamburgerMenu className={`text-2xl ${isScrolled?"text-blue-600":"text-white"}`} />
                         </div>
