@@ -1,6 +1,6 @@
 # Shazam Music App Clone
 
-![Shazam Clone](path/to/your/photo.png)
+![Shazam Clone](public/home.png)
 
 ## Description
 
@@ -42,7 +42,7 @@ Welcome to the Shazam Music App Clone! This project is a replica of the popular 
 
 ## Usage
 
-1. Open your browser and navigate to `http://localhost:3000`.
+1. Open your browser and navigate to `http://localhost:5173`.
 2. Click on the microphone icon to start listening for music.
 3. Wait for the app to identify the song and display the results.
 
