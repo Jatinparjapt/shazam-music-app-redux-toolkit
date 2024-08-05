@@ -16,7 +16,8 @@ const Signup = lazy(() => import("./Pages/Signup"));
 const Login = lazy(() => import("./Pages/Login"));
 const Playlist = lazy(() => import("./Pages/Playlist"));
 const PageNotFound = lazy(() => import("./Pages/PageNotFound"));
-
+const Forget = lazy(()=>import("./Pages/Forget"))
+const NewPassword = lazy(()=>import("./Pages/NewPassword"))
 // Component defining routes and rendering layout
 const Paths = () => {
   return (
@@ -33,7 +34,10 @@ const Paths = () => {
           <Route path="/download" element={<Download />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/login/forget" element={<Forget />} />
           <Route path="/playlist" element={<Playlist />} />
+          <Route path="/newpassword" element={<NewPassword />} />
+
           {/* Route for handling undefined paths */}
           <Route path='*' element={<PageNotFound />} />
         </Routes>

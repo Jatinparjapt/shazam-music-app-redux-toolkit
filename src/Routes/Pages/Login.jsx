@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet'
 import { SiShazam } from "react-icons/si";
 import { Link , useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import {loginUser} from "../../Redux-toolkit/Login"
+import {loginUser, loginUserDatabase} from "../../Redux-toolkit/Login"
 import { auth  , signInWithEmailAndPassword} from '../../Firebase/Firebase';
 import { useDispatch } from 'react-redux';
 import Cookies from 'js-cookie';
@@ -34,46 +34,8 @@ const Login = () => {
     }, [navigate])
 
   const onSubmit = async (data)=>{
-    try {
-// user login 
-    const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
-    const user = userCredential.user;
-    if(user){
-      // console.log('User signed in:', user);
-      dispatch(loginUser({accessToken: user.accessToken, email: user.email}))
-      toast.success('User Logged In', {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        
-        });
-        navigate("/")
-      // console.log(data)
-    }
-    } catch (error) {
-      if (error.code === 'auth/email-already-in-use') {
-                toast.info('This email is already registered. Please use a different email or log in.', {
-          position: "top-right",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          
-          });
-
-      } 
-      console.error('Error signing up:', error.code, error.message);
-    
-    }
-    
+   dispatch(loginUserDatabase(data))
+    //naximor719@alientex.com
   }
   return (
     <>
@@ -129,6 +91,7 @@ Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quam vitae velit dolor
      <p className='flex' >Don't have account ? 🤔</p>        <Link className='text-blue-800' to={"/signup"} >
                           Create New Account 😉
                             </Link>
+                            <p><Link className='text-blue-800' to={"/login/forget"} >Forget Password ? </Link></p>
      </div>
                             </p>
                         </div>

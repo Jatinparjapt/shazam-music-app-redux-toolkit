@@ -9,7 +9,7 @@ import { auth  , createUserWithEmailAndPassword ,db} from '../../Firebase/Fireba
 import {doc ,setDoc} from "firebase/firestore";
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
-import { signupUser } from '../../Redux-toolkit/Login';
+import { registerUser, signupUser } from '../../Redux-toolkit/Login';
 const Signup = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -35,47 +35,8 @@ const Signup = () => {
   }, [])
   const onSubmit = async (data) => {
     // Handle form submission
-    try {
-      const userData = await createUserWithEmailAndPassword(auth, data.email, data.password);
-    if (userData) {
-      setDoc(doc(db,"users",userData.user.uid ), {
-        name : data.name,
-        createdAt: new Date()
-      })
-        // alert("Verification email sent. Please check your inbox.");
-        toast.info('Verification email sent. Please check your inbox. ', {
-          position: "top-right",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          
-          });
-        dispatch(signupUser({accessToken: userData.accessToken, email: userData.email}));
-        navigate("/")
-      }
-    }
-    catch (err) {
-      if (err.code === 'auth/email-already-in-use') {
-        toast.error('This email is already registered. Please use a different email or log in.', {
-          position: "top-right",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          
-          });
-       
-      } 
-      console.error('Error signing up:', err.code, err.message);
-    
-    }
+    dispatch(registerUser(data))
+    // dispatch(signupUser({accessToken: userData.accessToken, email: userData.email}));
    
     // console.log(userData._tokenResponse , "comp");
   };
